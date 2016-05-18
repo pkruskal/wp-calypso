@@ -117,6 +117,7 @@ const RegisterDomainStep = React.createClass( {
 	},
 
 	componentWillMount: function() {
+		searchCount = 0; // reset the counter
 		if ( this.props.selectedSite ) {
 			this.fetchDefaultSuggestions();
 		}
@@ -289,24 +290,18 @@ const RegisterDomainStep = React.createClass( {
 					const timestamp = Date.now();
 					canRegister( domain, ( error, result ) => {
 						const timeDiff = Date.now() - timestamp;
-						if ( error && error.code !== 'domain_registration_unavailable' ) {
-							this.recordEvent(
-								'domainAvailabilityReceive',
-								domain,
-								( error && error.code ) || 'available', timeDiff,
-								this.props.analyticsSection
-							);
-
+						if ( error ) {
 							this.showValidationErrorMessage( domain, error );
 							this.setState( { lastDomainError: error } );
-						} else if ( result ) {
-							result.domain_name = domain;
+						} else {
+							this.setState( { notice: null } );
+							if ( result ) {
+								result.domain_name = domain;
+							}
 						}
 
-						if ( ( error && ( error.code === 'not_available' || error.code === 'not_available_but_mappable' ) ) ||
-							! error ) {
-							this.setState( { notice: null } );
-						}
+						const analyticsResult = ( error && error.code ) || 'available';
+						this.recordEvent( 'domainAvailabilityReceive', domain, analyticsResult, timeDiff, this.props.analyticsSection );
 
 						this.props.onDomainsAvailabilityChange( true );
 						callback( null, result );
@@ -320,17 +315,15 @@ const RegisterDomainStep = React.createClass( {
 							vendor: abtest( 'domainSuggestionVendor' )
 						},
 						timestamp = Date.now();
+
 					domains.suggestions( query ).then( domainSuggestions => {
 						this.props.onDomainsAvailabilityChange( true );
-						const timeDiff = Date.now() - timestamp;
-						this.recordEvent(
-							'searchResultsReceive',
-							domain,
-							domainSuggestions.map( suggestion => suggestion.domain_name ),
-							timeDiff,
-							domainSuggestions.length,
-							this.props.analyticsSection
-						);
+						const timeDiff = Date.now() - timestamp,
+							analyticsResults = domainSuggestions.map( suggestion => suggestion.domain_name );
+
+						this.recordEvent( 'searchResultsReceive', domain, analyticsResults, timeDiff, domainSuggestions.length,
+							this.props.analyticsSection );
+
 						callback( null, domainSuggestions );
 					} ).catch( error => {
 						const timeDiff = Date.now() - timestamp;
@@ -340,19 +333,18 @@ const RegisterDomainStep = React.createClass( {
 							error.code = error.error;
 							this.showValidationErrorMessage( domain, error );
 						}
-						this.recordEvent(
-							'searchResultsReceive',
-							domain,
-							[ error.code || error.error || 'ERROR' + ( error.statusCode || '' ) ], timeDiff, -1, this.props.analyticsSection
-						);
+
+						const analyticsResults = [ error.code || error.error || 'ERROR' + ( error.statusCode || '' ) ];
+						this.recordEvent( 'searchResultsReceive', domain, analyticsResults, timeDiff, -1, this.props.analyticsSection );
 						callback( error, null );
 
 					} );
 				}
 			],
 			( error, result ) => {
-				if ( ! this.state.loadingResults || domain !== this.state.lastDomainSearched ) {
-					// this callback is irrelevant now, a newer search has been made or the results were cleared
+				if ( ! this.state.loadingResults || domain !== this.state.lastDomainSearched || ! this.isMounted() ) {
+					// this callback is irrelevant now, a newer search has been made or the results were cleared OR
+					// domain registration was not available and component is unmounted
 					return;
 				}
 
@@ -527,7 +519,10 @@ const RegisterDomainStep = React.createClass( {
 				break;
 			case 'not_available':
 			case 'not_available_but_mappable':
-				// unavailable domains are displayed in the search results, not as a notice
+			case 'domain_registration_unavailable':
+				// unavailable domains are displayed in the search results, not as a notice OR
+				// domain registrations are closed, in which case it is handled in parent
+				message = null;
 				break;
 
 			case 'mappable_but_blacklisted_domain':
@@ -565,6 +560,7 @@ const RegisterDomainStep = React.createClass( {
 			case 'server_error':
 				message = this.translate( 'Sorry but there was a problem processing your request. Please try again in a few minutes.' );
 				break;
+
 
 			default:
 				throw new Error( 'Unrecognized error code: ' + error.code );
