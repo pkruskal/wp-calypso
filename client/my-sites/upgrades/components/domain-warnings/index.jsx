@@ -51,7 +51,7 @@ export default React.createClass( {
 	},
 
 	getPipe() {
-		let allRules = [ this.expiredDomains, this.expiringDomains, this.newDomains, this.unverifiedDomains ],
+		let allRules = [ this.expiredDomains, this.expiringDomains, this.newDomains, this.unverifiedDomains, this.pendingGappsTosAcceptanceDomains ],
 			rules;
 		if ( ! this.props.ruleWhiteList ) {
 			rules = allRules;
@@ -213,6 +213,25 @@ export default React.createClass( {
 			return this.unverifiedDomainsNotice( domains );
 		}
 		return null;
+	},
+
+	pendingGappsTosAcceptanceDomains() {
+		const domains = this.getDomains().filter( domain => domain.googleAppsSubscription && domain.googleAppsSubscription.hasPendingUsers );
+		if ( domains.length === 0 ) {
+			return null;
+		}
+
+		return (
+			<Notice
+				status="is-error"
+				showDismiss={ false }
+				key="pending-gapps-tos-acceptance-domains"
+				text={ this.translate( 'Urgent! You need to accept Google\'s Terms of Service or else your Google Apps accounts will get suspended soon.' ) }>
+				<NoticeAction href={ paths.domainManagementEmail( this.props.selectedSite.domain, this.getDomains().length === 1 && domains[0].name ) }>
+					{ this.translate( 'Fix now' ) }
+				</NoticeAction>
+			</Notice>
+		);
 	},
 
 	componentWillMount: function() {
