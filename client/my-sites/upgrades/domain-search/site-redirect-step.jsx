@@ -46,7 +46,7 @@ var SiteRedirectStep = React.createClass( {
 						</p>
 					</div>
 
-					<DomainProductPrice price={ price } cart={ this.props.cart } />
+					<DomainProductPrice price={ price } cart={ this.props.cart } isPlanRequired={ false } />
 
 					<fieldset>
 						<input

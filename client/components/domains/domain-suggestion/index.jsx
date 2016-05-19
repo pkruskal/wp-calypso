@@ -49,6 +49,7 @@ var DomainSuggestion = React.createClass( {
 				<div className="domain-suggestion__content">
 					{ this.props.children }
 					<DomainProductPrice
+						isPlanRequired
 						isLoading={ this.props.isLoading }
 						price={ this.props.price }
 						cart={ this.props.cart }/>
