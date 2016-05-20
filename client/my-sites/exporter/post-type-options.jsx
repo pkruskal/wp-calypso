@@ -4,6 +4,7 @@
 import React, { PropTypes } from 'react';
 import PureRenderMixin from 'react-pure-render/mixin';
 import { connect } from 'react-redux';
+import { times } from 'lodash/util';
 
 /**
  * Internal dependencies
@@ -40,9 +41,9 @@ const mapDispatchToProps = ( dispatch, ownProps ) => {
 };
 
 /**
- * Displays a list of select menus with a checkbox legend
+ * Displays a list of select menus with a radio option legend
  *
- * Displays a field group with a checkbox legend and optionally
+ * Displays a field group with a radio legend and optionally
  * a list of select menus, or a description to appear beneath the
  * legend.
  */
@@ -58,22 +59,36 @@ const PostTypeOptions = React.createClass( {
 		legend: PropTypes.string.isRequired,
 	},
 
-	renderPlaceholders() {
-		return (
-			<div className="exporter__option-fieldset-fields">
+	renderFields() {
+		const { options, shouldShowPlaceholders, postType } = this.props;
+
+		const Placeholder = () => {
+			return (
 				<div className="exporter__placeholder-text">
 					{ this.translate( 'Loading options…' ) }
 				</div>
-			</div>
-		);
-	},
+			);
+		};
 
-	renderFields() {
-		const { options } = this.props;
+		if ( shouldShowPlaceholders ) {
+			let placeholderCount = 0;
+			if ( postType === 'post' ) {
+				placeholderCount = 5;
+			}
+			if ( postType === 'page' ) {
+				placeholderCount = 4;
+			}
+
+			return (
+				<div className="exporter__option-fieldset-fields">
+					{ times( placeholderCount, ( i ) => <Placeholder key={ i } /> ) }
+				</div>
+			);
+		}
 
 		const Field = ( props ) => {
 			if ( ! props.options ) {
-				// This should be replaced with `return null` in React >= 0.15
+				// This can be replaced with `return null` in React >= 0.15
 				return <span/>;
 			}
 
@@ -101,7 +116,6 @@ const PostTypeOptions = React.createClass( {
 			onSelect,
 			legend,
 			description,
-			shouldShowPlaceholders
 		} = this.props;
 
 		return (
@@ -120,7 +134,7 @@ const PostTypeOptions = React.createClass( {
 					</p>
 				}
 
-				{ shouldShowPlaceholders ? this.renderPlaceholders() : this.renderFields() }
+				{ this.renderFields() }
 			</div>
 		);
 	}
