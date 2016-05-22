@@ -116,6 +116,7 @@ module.exports = React.createClass( {
 	},
 
 	otherCommentSettings: function() {
+		const showMarkdownSection = ( ! this.state.fetchingSettings && typeof this.state.wpcom_publish_comments_with_markdown !== 'undefined' );
 		return (
 			<FormFieldset className="has-divider">
 				<FormLabel>{ this.translate( 'Other comment settings' ) }</FormLabel>
@@ -219,18 +220,20 @@ module.exports = React.createClass( {
 						} )
 						}</span>
 				</FormLabel>
-				<FormLabel>
-					<FormCheckbox
-						name="wpcom_publish_comments_with_markdown"
-						checkedLink={ this.linkState( 'wpcom_publish_comments_with_markdown' ) }
-						disabled={ this.state.fetchingSettings }
-						onClick={ this.recordEvent.bind( this, 'Clicked Markdown for Comments Checkbox' ) } />
-					<span>{ this.translate( 'Enable Markdown for comments. {{a}}Learn more about markdown{{/a}}.', {
-							components: {
-								a: <a href="http://en.support.wordpress.com/markdown-quick-reference/" target="_blank" />
-							}
-						} ) }</span>
-				</FormLabel>
+				{ showMarkdownSection &&
+					<FormLabel>
+						<FormCheckbox
+							name="wpcom_publish_comments_with_markdown"
+							checkedLink={ this.linkState( 'wpcom_publish_comments_with_markdown' ) }
+							disabled={ this.state.fetchingSettings }
+							onClick={ this.recordEvent.bind( this, 'Clicked Markdown for Comments Checkbox' ) } />
+						<span>{ this.translate( 'Enable Markdown for comments. {{a}}Learn more about markdown{{/a}}.', {
+								components: {
+									a: <a href="http://en.support.wordpress.com/markdown-quick-reference/" target="_blank" />
+								}
+							} ) }</span>
+					</FormLabel>
+				}
 				<FormLabel>
 					<span>{
 						this.translate( 'Comments should be displayed with the {{olderOrNewer /}} comments at the top of each page', {

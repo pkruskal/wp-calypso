@@ -85,6 +85,7 @@ const SiteSettingsFormWriting = React.createClass( {
 	},
 
 	render: function() {
+		const showMarkdownSection = ( ! this.state.fetchingSettings && typeof this.state.wpcom_publish_posts_with_markdown !== 'undefined' );
 		return (
 			<form id="site-settings" onSubmit={ this.submitForm } onChange={ this.markChanged }>
 				<SectionHeader label={ this.translate( 'Writing Settings' ) }>
@@ -141,24 +142,25 @@ const SiteSettingsFormWriting = React.createClass( {
 							recordEvent={ this.recordEvent }
 							className="has-divider is-top-only" />
 					) }
-
-					<FormFieldset className="has-divider is-top-only">
-						<FormLabel>
-							{ this.translate( 'Markdown' ) }
-						</FormLabel>
-						<FormLabel>
-							<FormCheckbox
-								name="wpcom_publish_posts_with_markdown"
-								checkedLink={ this.linkState( 'wpcom_publish_posts_with_markdown' ) }
-								disabled={ this.state.fetchingSettings }
-								onClick={ this.recordEvent.bind( this, 'Clicked Markdown for Posts Checkbox' ) } />
-							<span>{ this.translate( 'Use markdown for posts and pages. {{a}}Learn more about markdown{{/a}}.', {
-									components: {
-										a: <a href="http://en.support.wordpress.com/markdown-quick-reference/" target="_blank" />
-									}
-								} ) }</span>
-						</FormLabel>
-					</FormFieldset>
+					{ showMarkdownSection &&
+						<FormFieldset className="has-divider is-top-only">
+							<FormLabel>
+								{ this.translate( 'Markdown' ) }
+							</FormLabel>
+							<FormLabel>
+								<FormCheckbox
+									name="wpcom_publish_posts_with_markdown"
+									checkedLink={ this.linkState( 'wpcom_publish_posts_with_markdown' ) }
+									disabled={ this.state.fetchingSettings }
+									onClick={ this.recordEvent.bind( this, 'Clicked Markdown for Posts Checkbox' ) } />
+								<span>{ this.translate( 'Use markdown for posts and pages. {{a}}Learn more about markdown{{/a}}.', {
+										components: {
+											a: <a href="http://en.support.wordpress.com/markdown-quick-reference/" target="_blank" />
+										}
+									} ) }</span>
+							</FormLabel>
+						</FormFieldset>
+					}
 
 					{ config.isEnabled( 'press-this' ) &&
 						<FormFieldset className="has-divider is-top-only">
