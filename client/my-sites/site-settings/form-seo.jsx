@@ -21,7 +21,6 @@ import NoticeAction from 'components/notice/notice-action';
 import notices from 'notices';
 import protectForm from 'lib/mixins/protect-form';
 import FormInput from 'components/forms/form-text-input-with-affixes';
-import FormInputValidation from 'components/forms/form-input-validation';
 import FormFieldset from 'components/forms/form-fieldset';
 import FormLabel from 'components/forms/form-label';
 import FormSettingExplanation from 'components/forms/form-setting-explanation';
@@ -192,7 +191,6 @@ export const SeoForm = React.createClass( {
 
 		const isSitePrivate = parseInt( blog_public, 10 ) !== 1;
 		const isDisabled = isSitePrivate || isSubmittingForm;
-		const hasMetaError = seoMetaDescription && seoMetaDescription.length > 160;
 
 		const sitemapUrl = `https://${ slug }/sitemap.xml`;
 		const generalTabUrl = getGeneralTabUrl( slug );
@@ -266,14 +264,11 @@ export const SeoForm = React.createClass( {
 									id="seo_meta_description"
 									value={ seoMetaDescription || '' }
 									disabled={ isDisabled }
-									maxLength="160"
+									maxLength="300"
 									acceptableLength={ 159 }
 									onChange={ this.handleMetaChange } />
-								{ hasMetaError &&
-									<FormInputValidation isError={ true } text={ this.translate( 'Description can\'t be longer than 160 characters.' ) } />
-								}
 								<FormSettingExplanation>
-									{ this.translate( 'Craft a description of your site in 160 characters or less. This description can be used in search engine results for your site\'s Front Page.' ) }
+									{ this.translate( 'Craft a description of your site in about 160 characters. This description can be used in search engine results for your site\'s Front Page.' ) }
 								</FormSettingExplanation>
 							</FormFieldset>
 
