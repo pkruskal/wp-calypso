@@ -223,7 +223,7 @@
 }
 
 .reader-start-footer {
-	animation: slideout-bar 1.2s ease-out 1 forwards;
+	animation: slideout-bar 1.5s ease-out 1 forwards;
 	background: rgba( 102, 142, 170, .9 );
 	padding: 8px;
     position: fixed;
@@ -268,12 +268,13 @@
 }
 
 @keyframes slideout-bar {
+
     0% {
-        bottom: -100px;
+        transform: translateY( calc( 100vh - 100px ) );
     }
 
     100% {
-    	bottom: 0;
+    	transform: translateY( 0 );
     }
 }
 
@@ -282,36 +283,28 @@
 .reader-start-card {
 
 	&:last-child {
-		animation: right-slide 1.2s ease-out 5s 1 forwards;
+		animation: right-slide .6s ease-out 5s 1 forwards;
 	}
 
 	@-webkit-keyframes right-slide {
 
-   	 	0% {
-			left: 0;
+		80% {
+			transform: translateX( 107% );
 		}
 
-    	50% {
-    		left: 375px;
-    	}
-
     	100% {
-    		left: 370px;
+    		transform: translateX( 105% );
     	}
 	}
 
 	@keyframes right-slide {
 
-	    0% {
-	    	left: 0;
-	    }
-
-		50% {
-			left: 375px;
+		80% {
+			transform: translateX( 107% );
 		}
 
     	100% {
-    		left: 370px;
+    		transform: translateX( 105% );
     	}
 	}
 }
