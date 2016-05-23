@@ -78,7 +78,7 @@
 	}
 
   	.reader-start-card__hero {
-  		background: url( "images/reader/hero.jpg" ); // Temp hero image
+  		background: url( "images/reader/hero.jpg" ) lighten( $gray, 30% ); // Temp hero image
   		height: 100px;
   		margin: -24px;
   	}
@@ -223,11 +223,7 @@
 }
 
 .reader-start-footer {
-    animation-duration: 1.3s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: once;
-    animation-name: slideout-bar;
-    animation-timing-function: ease-out;
+	animation: slideout-bar 1.2s ease-out 1 forwards;
 	background: rgba( 102, 142, 170, .9 );
 	padding: 8px;
     position: fixed;
@@ -275,7 +271,47 @@
     0% {
         bottom: -100px;
     }
+
     100% {
     	bottom: 0;
     }
+}
+
+// Appending inline recommendations
+
+.reader-start-card {
+
+	&:last-child {
+		animation: right-slide 1.2s ease-out 5s 1 forwards;
+	}
+
+	@-webkit-keyframes right-slide {
+
+   	 	0% {
+			left: 0;
+		}
+
+    	50% {
+    		left: 375px;
+    	}
+
+    	100% {
+    		left: 370px;
+    	}
+	}
+
+	@keyframes right-slide {
+
+	    0% {
+	    	left: 0;
+	    }
+
+		50% {
+			left: 375px;
+		}
+
+    	100% {
+    		left: 370px;
+    	}
+	}
 }
