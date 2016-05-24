@@ -219,6 +219,7 @@ const EmailForwardingAddNew = React.createClass( {
 	onChange( event ) {
 		let { name, value } = event.target;
 
+		value = value.trim().toLowerCase();
 		if ( name === 'mailbox' ) {
 			// Removes the domain part
 			value = value.replace( /@.*/, '' );
@@ -226,7 +227,7 @@ const EmailForwardingAddNew = React.createClass( {
 
 		this.formStateController.handleFieldChange( {
 			name,
-			value: value
+			value
 		} );
 	},
 
