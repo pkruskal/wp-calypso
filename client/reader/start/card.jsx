@@ -14,10 +14,10 @@ const StartCard = React.createClass( {
 		return (
 			<Card className="reader-start-card">
 				<div className="reader-start-card__hero"></div>
-				<header>
+				<header className="reader-start-card__site-header">
 					<SiteIcon site={ site } size={ 70 } />
-					<h1>The Adventures of Casey</h1>
-					<p>Casey Schreiner shares his tips on planning your first solo camping trip around the world.</p>
+					<h1 className="reader-start-card__site-title">The Adventures of Casey</h1>
+					<p className="reader-start-card__site-description">Casey Schreiner shares his tips on planning your first solo camping trip around the world.</p>
 				</header>
 				{ showPostPreview ? <StartPostPreview /> : null }
 				<footer>

@@ -1,9 +1,13 @@
-// External dependencies
+/**
+ * External dependencies
+ */
 import React from 'react';
 import debugModule from 'debug';
 import { connect } from 'react-redux';
 
-// Internal dependencies
+/**
+ * Internal dependencies
+ */
 import Main from 'components/main';
 import { getRecommendations } from 'state/reader/start/selectors';
 import QueryReaderStartRecommendations from 'components/data/query-reader-start-recommendations';
@@ -19,12 +23,12 @@ const Start = React.createClass( {
 			<Main className="reader-start">
 				<QueryReaderStartRecommendations />
 				<header className="reader-start__intro">
-					<h1>{ this.translate( 'Welcome to the Reader' ) }</h1>
-					<p>{ this.translate( "Discover great stories and read your favorite sites' posts all in one place. Every time there are new updates to the sites you follow, you'll be the first to know!" ) }
+					<h1 className="reader-start__title">{ this.translate( 'Welcome to the Reader' ) }</h1>
+					<p className="reader-start__description">{ this.translate( "Discover great stories and read your favorite sites' posts all in one place. Every time there are new updates to the sites you follow, you'll be the first to know!" ) }
 				</p>
 				</header>
 
-				<div className="reader-start__cards">
+				<div className="reader-start-cards">
 					<StartCard />
 					<StartCard />
 					<StartCard />
@@ -32,9 +36,9 @@ const Start = React.createClass( {
 					<StartCard />
 				</div>
 
-				<RootChild className="reader-start-footer">
-					<div className="reader-start-footer__action main">
-						<span>Follow one or more sites to get started</span>
+				<RootChild className="reader-start__bar">
+					<div className="reader-start__bar-action main">
+						<span className="reader-start__bar-text">Follow one or more sites to get started</span>
 						<Button disabled>{ this.translate( "OK, I'm all set!" ) }</Button>
 					</div>
 				</RootChild>

@@ -9,12 +9,12 @@ const StartPostPreview = React.createClass( {
 		const user = { avatar_URL: 'https://2.gravatar.com/avatar/5512fbf07ae3dd340fb6ed4924861c8e?s=400&d=mm' };
 		return (
 			<article className="reader-start-post-preview">
-				<h1>The Joys of Solo Camping</h1>
+				<h1 className="reader-start-post-preview__title">The Joys of Solo Camping</h1>
 				<div className="reader-start-post-preview__byline">
 					<Gravatar user={ user } size={ 20 } />
 					<span className="reader-start-post-preview__author">by Casey Schreiner</span>
 				</div>
-				<p>Camping is one of the best way to truly enjoy some time in nature, but sometimes organizing a group camping trip is not the easiest thing in the world. It requires your...</p>
+				<p className="reader-start-post-preview__excerpt">Camping is one of the best way to truly enjoy some time in nature, but sometimes organizing a group camping trip is not the easiest thing in the world. It requires your...</p>
 			</article>
 		);
 	}
