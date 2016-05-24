@@ -18,6 +18,7 @@ import {
 	FinishStep,
 	ActionStep,
 } from './steps';
+import wait from './wait';
 
 class GuidedTours extends Component {
 	constructor() {
@@ -59,7 +60,23 @@ class GuidedTours extends Component {
 
 	next() {
 		const nextStepName = this.props.tourState.stepConfig.next;
-		this.props.nextGuidedTourStep( { stepName: nextStepName } );
+		const nextStepConfig = this.props.tourState.nextStepConfig;
+
+		const predicate = () => {
+			console.log( 'predicate' );
+			if ( nextStepConfig && nextStepConfig.target ) {
+				const target = this.getTipTargets()[nextStepConfig.target];
+				console.log( target && target.getBoundingClientRect() );
+				return target && target.getBoundingClientRect().left >= 0;
+			}
+			return true;
+		};
+		const consequence = () => {
+			console.log( 'consequence!' );
+			window.wut = false;
+			this.props.nextGuidedTourStep( { stepName: nextStepName } );
+		};
+		wait( predicate, consequence );
 	}
 
 	quit( options = {} ) {
