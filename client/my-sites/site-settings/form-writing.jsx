@@ -33,6 +33,7 @@ const SiteSettingsFormWriting = React.createClass( {
 				'post_categories',
 				'default_post_format',
 				'wpcom_publish_posts_with_markdown',
+				'markdown_supported',
 			],
 			settings = {};
 
@@ -85,7 +86,7 @@ const SiteSettingsFormWriting = React.createClass( {
 	},
 
 	render: function() {
-		const showMarkdownSection = ( ! this.state.fetchingSettings && typeof this.state.wpcom_publish_posts_with_markdown !== 'undefined' );
+		const markdownSupported = this.state.markdown_supported;
 		return (
 			<form id="site-settings" onSubmit={ this.submitForm } onChange={ this.markChanged }>
 				<SectionHeader label={ this.translate( 'Writing Settings' ) }>
@@ -142,7 +143,7 @@ const SiteSettingsFormWriting = React.createClass( {
 							recordEvent={ this.recordEvent }
 							className="has-divider is-top-only" />
 					) }
-					{ showMarkdownSection &&
+					{ markdownSupported &&
 						<FormFieldset className="has-divider is-top-only">
 							<FormLabel>
 								{ this.translate( 'Markdown' ) }

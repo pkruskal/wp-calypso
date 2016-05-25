@@ -54,6 +54,7 @@ module.exports = React.createClass( {
 		'blacklist_keys',
 		'admin_url',
 		'wpcom_publish_comments_with_markdown',
+		'markdown_supported',
 	],
 
 	getSettingsFromSite: function( siteInstance ) {
@@ -116,7 +117,7 @@ module.exports = React.createClass( {
 	},
 
 	otherCommentSettings: function() {
-		const showMarkdownSection = ( ! this.state.fetchingSettings && typeof this.state.wpcom_publish_comments_with_markdown !== 'undefined' );
+		const markdownSupported = this.state.markdown_supported;
 		return (
 			<FormFieldset className="has-divider">
 				<FormLabel>{ this.translate( 'Other comment settings' ) }</FormLabel>
@@ -220,7 +221,7 @@ module.exports = React.createClass( {
 						} )
 						}</span>
 				</FormLabel>
-				{ showMarkdownSection &&
+				{ markdownSupported &&
 					<FormLabel>
 						<FormCheckbox
 							name="wpcom_publish_comments_with_markdown"
