@@ -30,16 +30,11 @@
 }
 
 .reader-start-cards {
-	display: flex;
-	flex-wrap: wrap;
-	margin-top: -14px;
 
-	// Aligns last card with grid
-	&:after {
-		content:'';
-		flex: auto;
-		width: 47%;
-	}
+    @include breakpoint( ">960px" ) {
+	    column-count: 2;
+	    column-gap: 1em;
+    }
 
 	.site-icon {
 		border: 4px solid $white;
@@ -48,14 +43,12 @@
 }
 
 .reader-start-card {
-	box-sizing: border-box;
-	flex: calc( 100% );
-	float: left;
-  	margin-top: 20px;
+	margin: 5px;
 
 	@include breakpoint( ">960px" ) {
-		flex: calc( 50% - 3em );
-  		margin: 20px 20px 0 0;
+		display: inline-block;
+	    margin: 8px 5px 8px 2px;
+	    width: 100%;
 	}
 
 	&:nth-child( even ),
@@ -71,9 +64,14 @@
 		}
 	}
 
+	.button {
+		overflow: visible;
+	}
+
 	.follow-button {
 		float: right;
 		margin-top: 10px;
+		overflow: visible;
 		right: 0;
 
 		@include breakpoint( ">480px" ) {
@@ -87,7 +85,7 @@
 		.gridicon {
 			position: absolute;
 				left: 15px;
-				top: 10px;
+				top: 9px;
 		}
 
 		.follow-button__label {
@@ -148,6 +146,8 @@
 .reader-start-card__site-title {
 	font-size: 1.5em;
 	font-weight: 500;
+	line-height: 1.2;
+	margin-bottom: 3px;
 }
 
 .reader-start-card__site-description {
@@ -188,6 +188,7 @@
 	font-family: $serif;
 	font-size: 16px;
 	font-weight: 600;
+	line-height: 1.3;
 }
 
 .reader-start-post-preview__excerpt {
@@ -273,39 +274,4 @@
 
 // Appending inline recommendations
 
-.reader-start-card {
 
-	&:last-child {
-		animation: slide-right .7s ease-out 5s 1 forwards;
-	}
-
-	@-webkit-keyframes slide-right {
-
-		20% {
-			transform: translateX( -5% );
-		}
-
-		80% {
-			transform: translateX( 107% );
-		}
-
-    	100% {
-    		transform: translateX( 105% );
-    	}
-	}
-
-	@keyframes slide-right {
-
-		20% {
-			transform: translateX( -5% );
-		}
-
-		80% {
-			transform: translateX( 107% );
-		}
-
-    	100% {
-    		transform: translateX( 105% );
-    	}
-	}
-}

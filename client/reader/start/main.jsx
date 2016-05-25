@@ -34,6 +34,13 @@ const Start = React.createClass( {
 					<StartCard />
 					<StartCard />
 					<StartCard />
+					<StartCard />
+					<StartCard />
+					<StartCard />
+					<StartCard />
+					<StartCard />
+					<StartCard />
+					<StartCard />
 				</div>
 
 				<RootChild className="reader-start__bar">
