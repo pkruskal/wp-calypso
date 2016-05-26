@@ -31,6 +31,8 @@
 
 .reader-start-cards {
 
+	transform: translateX( 0 ); // Prevents overflowing content from disappearing
+
     @include breakpoint( ">960px" ) {
 	    column-count: 2;
 	    column-gap: 1em;
@@ -43,12 +45,19 @@
 }
 
 .reader-start-card {
-	margin: 5px;
+	margin-bottom: 25px;
 
 	@include breakpoint( ">960px" ) {
 		display: inline-block;
 	    margin: 8px 5px 8px 2px;
 	    width: 100%;
+	}
+
+	&:first-child {
+
+		@include breakpoint( "<480px" ) {
+			margin-top: 20px;
+		}
 	}
 
 	&:nth-child( even ),
@@ -62,10 +71,6 @@
 		@include breakpoint( ">480px" ) {
 			margin-bottom: 80px;
 		}
-	}
-
-	.button {
-		overflow: visible;
 	}
 
 	.follow-button {
