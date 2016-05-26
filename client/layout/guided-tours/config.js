@@ -8,6 +8,7 @@ import React from 'react';
 /**
  * Internal dependencies
  */
+import config from 'config';
 import i18n from 'lib/mixins/i18n';
 
 function get() {
@@ -39,7 +40,7 @@ function get() {
 			type: 'BasicStep',
 			target: 'sidebar',
 			placement: 'beside',
-			next: 'preview',
+			next: config.isEnabled( 'preview-layout' ) ? 'preview' : 'themes',
 		},
 		preview: {
 			target: 'site-card-preview',
